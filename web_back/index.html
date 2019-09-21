@@ -171,6 +171,19 @@
   <script src="./js/utils/user.js"></script>
   <script src="./js/bootstrap/js/bootstrap.min.js"></script>
   <script>
+    //入口函数
+    //获取管理员信息
+    $(function(){
+        user.getInfo(function(res) {
+          if(res.code == 200) {
+            console.log(res);
+              $('#userName').html(res.data.nickname);
+              $('#userImg').attr('src', res.data.user_pic);
+          }
+        });
+    })
+
+
     $('#btnLogout').click(function() {
       $('#pResult').html('您确定要退出吗？');
         $('.modal').modal('show');

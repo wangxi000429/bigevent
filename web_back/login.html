@@ -86,34 +86,7 @@
     })
   </script>
 
-  <!-- 
-    <script src="./js/utils/config.js"></script>
-    <script src="./js/utils/user.js"></script>
-
-    <script>
-      $('#btnLogin').click(function() {
-        var userName = $('#userName').val();
-        var password = $('#password').val();
-        console.log(userName, password);
-        if (userName === '' || password === '') {
-          $('#pResult').html('用户名和密码不能为空！');
-          $('.modal').modal('show');
-          //   alert('心太大了');
-        } else {
-          user.login(userName, password, function(res) {
-          
-            if (res.code === 200) {
-              //   alert('ok');
-              window.location.href = './index.html';
-            } else {
-              //   alert(res.msg);
-              $('#pResult').html(res.msg);
-              $('.modal').modal('show');
-            }
-          });
-        }
-      });
-    </script> -->
+ 
 </body>
 
 </html>
