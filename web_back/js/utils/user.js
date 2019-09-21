@@ -15,7 +15,13 @@ var user = {
         debugger;
         callBack(res);
       });
+  },
+  logout: function (callBack) {
+    $.post('http://localhost:8000/admin/logout', function (res) {
+      callBack(res);
+    });
   }
+
 }
 
 
