@@ -176,7 +176,7 @@
     $(function(){
         user.getInfo(function(res) {
           if(res.code == 200) {
-            console.log(res);
+            // console.log(res);
               $('#userName').html(res.data.nickname);
               $('#userImg').attr('src', res.data.user_pic);
           }

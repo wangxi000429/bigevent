@@ -6,7 +6,7 @@ var user = {
    * @param {*} callBack 回调函数
    */
   login: function (userName, password, callBack) {
-    $.post('http://localhost:8000/admin/login', {
+    $.post(URLIST.user_login, {
         user_name: userName,
         password: password
       },
@@ -17,12 +17,12 @@ var user = {
       });
   },
   logout: function (callBack) {
-    $.post('http://localhost:8000/admin/logout', function (res) {
+    $.post(URLIST.user_logout, function (res) {
       callBack(res);
     });
   },
   getInfo:function(callBack){
-    $.get('http://localhost:8000/admin/getuser',function(res) {
+    $.get(URLIST.user_info,function(res) {
       callBack(res);
     })
   }
