@@ -81,6 +81,26 @@
         </div>
     </div>
 
+    <div class="modal_del fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">删除提醒</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="pResult"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnisOk" class="btn btn-default" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 
 
@@ -127,6 +147,22 @@
 
     <script src="./js/lib/template-web.js"></script>
     <script>
+        function deleteTr(id) {
+            // todos : 使用模态框去实现 删除确认
+            if (window.confirm('你确定要删除吗？')) {
+                // alert(id);
+                category.del(id, function (res) {
+                    // console.log(res);
+                    if (res.code === 200) {
+                        doQuery();
+                    }
+                });
+            }
+        }
+
+
+
+
         function doQuery() {
             category.show(function (res) {
                 // console.log(res);
@@ -142,21 +178,25 @@
 
         //添加功能
         $('#model_add').click(function () {
-        //获取用户的数据，进行判断
-        var name = $('#category_name').val();
-        var slug = $('#category_slug').val();
-        // console.log(name,slug);
-        if (name === '' || slug === '') {
-            $('#divResult').text('名字和别名不能为空')
-        } else {
-            category.add(name, slug, function (res) {
-                // console.log(res);
+            //获取用户的数据，进行判断
+            var name = $('#category_name').val();
+            var slug = $('#category_slug').val();
+            // console.log(name,slug);
+            if (name === '' || slug === '') {
+                $('#divResult').text('名字和别名不能为空');
+            } else {
+                category.add(name, slug, function (res) {
+                    // console.log(res);
+                    if (res.code === 200) {
+                        doQuery();
+                        $('#divResult').hide();
+                        $('#addModal').modal('hide');
+                    } else {
+                        $('#divResult').text(res.msg);
+                    }
 
-            })
-        }
-        })
-        2
-
+                })
+            }
         })
     </script>
 
