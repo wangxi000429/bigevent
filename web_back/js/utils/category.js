@@ -15,6 +15,6 @@ var category = {
         $.post(URLIST.category_del, { id: id }, function(res) {
           callBack(res);
         });
-      },
+      }
 
 }

@@ -52,7 +52,7 @@
             </table>
         </div>
     </div>
-
+<!-- 添加和编辑模态框 -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-
+<!-- 删除部分模态框 -->
     <div class="modal_del fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -121,22 +121,16 @@
     </script>
 
 
+    <!-- 模态框显示隐藏 -->
     <script>
         $('#addModal').modal({
             show: false,
             backdrop: false
         });
-
         $('#model_shutoff').click(function () {
             // alert('shutoff');
             $('#addModal').modal('hide');
         });
-
-        // $('#model_add').click(function () {
-        //     // alert('add');
-        //     $('#addModal').modal('hide');
-        // });
-
         // $('.category_table').delegate('a', 'click', function () {
         //     if ($(this).hasClass('btn-info')) {
         //         $('#addModal .modal-title').html('修改分类名称');
@@ -146,6 +140,7 @@
     </script>
 
     <script src="./js/lib/template-web.js"></script>
+    <!-- 删除功能 -->
     <script>
         function deleteTr(id) {
             // todos : 使用模态框去实现 删除确认
