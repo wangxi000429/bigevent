@@ -96,7 +96,7 @@
         <td class="text-center">{{item.state}}</td>
         <td class="text-center">
             <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-            <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+            <a   data-id="{{item.id}}" href="javascript:;" class="btn btn-danger del btn-xs">删除</a>
         </td>
     </tr>
     {{/each}}
@@ -132,7 +132,7 @@
         getAndShow();
 
 
-    //筛选
+    //筛选功能
     $('#btnSearch').click(function() {
         //筛选功能
         //1.更新当前选中的类别和状态
@@ -143,6 +143,29 @@
          //   2. 再次查询
         getAndShow();
     })
+
+    //删除功能 动态创建的  事件委托
+
+    $('#articleListContent').on('click','.del',function() {
+        // console.log(this);
+
+        if(!window.confirm('确定要删除吗？')){
+            return;
+        }
+        //获取之前在模板中生成的自定义属性
+        // var id = $(this).attr('data-id');
+        var id = $(this).data('id');
+        // console.log(id);
+        article.del(id,function(res) {
+            if(res.code === 200) {
+                //删除成功 重新编辑
+                getAndShow();
+            }else {
+                alert(res.msg);
+            }
+        });
+    })
+
      
     
 

@@ -9,4 +9,12 @@ var article = {
             callBack(res);
           });
     },
+    del: function(id, callBack) {
+        $.get(URLIST.article_del, { id: id }, function(res) {
+          callBack(res);
+        });
+    },
+    // add : function(fd,callBack) {
+       
+    // }
 }
