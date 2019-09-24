@@ -25,7 +25,7 @@
                         <select id="selCategory" name="" class="form-control input-sm">
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
+                            <option value="">所有状态</option>
                             <option value="草稿">草稿</option>
                             <option value="已发布">已发布</option>
                         </select>
@@ -122,6 +122,7 @@
 
         //设置文章类别下拉框
         category.show(function (res) {
+            console.log(res);
             if (res.code === 200) {
                 var htmlStr=template('tmpCategory',res);
                 $('#selCategory').html(htmlStr);

@@ -14,7 +14,16 @@ var article = {
           callBack(res);
         });
     },
-    // add : function(fd,callBack) {
-       
-    // }
-}
+    add: function(fd, callBack) {
+        $.ajax({
+          url: URLIST.article_add,
+          type: 'post',
+          data: fd,
+          processData: false, // 让jquery不要处理数据。它无法处理formData对象
+          contentType: false, // 不要额外去设置请求头。它有自己的请求头
+          success: function(res) {
+            callBack(res);
+          }
+        });
+      }
+    };
