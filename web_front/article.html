@@ -205,6 +205,132 @@
         <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="./js/utils/config.js"></script>
+    <script src="./js/utils/article.js"></script>
+    <script src="./js/utils/comment.js"></script>
+    <script src="./js/template-web.js"></script>
+    <script id="tmp" type="text/html">
+        {{each data item}}
+        <div class="comment_detail_list">
+            <div class="person_pic fl">{{item.name.substr(0,1)}}</div>
+            <div class="name_time fl"><b>{{item.name}}</b><span> {{item.dt}}</span></div>
+            <div class="comment_text fl">
+                {{item.content}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+        /*
+        把输入的时间戳转成相对于现在时间 的一个相对值
+        - 1天前；
+        - 2小时前
+        - 1小时5分钟前；
+        - 刚才
+        */
+       function formatTime(dt) {
+            // 思路：
+        // 1 用现在的时间戳 - dt , 是得到已经过去了的毫秒数
+        // 2. 把这个毫秒转成天数，小时数，分钟数
+        var diffSec = Math.floor((Date.now() - dt) / 1000);
+        // diffSec ==>  a天b小时c分
+        //经过了几天
+        var day = Math.floor(diffSec/(24*60*60));
+        //经过了几小时
+        var hours = Math.floor(diffSec - day*(24*60*60)/(60*60));
+        //经过了几分
+        var mins = Math.floor((diffSec - day*(24*60*60) - hours*60*60)/60);
+        console.log(day,hours,mins);
+        var str = '';
+        if (day > 0) {
+          str += day + '天';
+        }
+        if (hours > 0) {
+          str += hours + '小时';
+        }
+        if (mins > 0) {
+          str += mins + '分';
+        }
+        return str;
+        
+       }
+       function formatToObj(str) {
+         var obj = {};
+         //用&进行拆分
+         var arr1 = str.split('&');
+         arr1.forEach(function(item) {
+             var arr2 = item.split('=');
+             obj[arr2[0]] = arr2[1];
+         });
+         return obj;
+       }
+        $(function () {
+             //   把?去掉
+             var str = window.location.search.replace('?','');
+             var obj = formatToObj(str);
+             var id = obj.id;
+            //  if(isNaN) {
+            //      alert('编号不对');
+            //      return;
+            //  }
+             article.show({id:id},function(res) {
+                 if(res.cade === 200) {
+                     //1.显示文章内容
+                     var data = res.data;
+                    //  var { title, author, date, content } = data;
+                    $('#article_title').text(data.title);
+                    $('#article_author').text(data.author);
+                    $('#article_date').text(data.date);
+                    $('#article_content').html(data.content);
+
+                    //2.获取评论
+                    getAndShowComment(id);
+                 }
+             });
+
+             //添加评论
+             $('#btnAdd').click(function() {
+                 //1. 取值，进行简单判断
+                 var content = $('#comment_content').val().trim();
+                 var name = $('#comment_name').val().trim();
+                 if(name == '' ||content == '') {
+                     alert('评论不能为空');
+                     return;
+                 }
+                 //2. 调用接口
+                 comment.add({name:name,content:content,article_id:id},function(res) {
+                     if(res.code ===200) {
+                         //清空留言区
+                         $('#comment_content').val('');
+                         $('#comment_name').val('');
+                         //重新更新加载评论
+                         getAndShowComment(id);
+                     }
+                 });
+             });
+
+            function getAndShowComment(id) {
+                comment.get(id, function (res) {
+                    if (res.code === 200) {
+                        // 使用模板引擎 渲染数据
+                        // 更新res.data中的dt值
+                        res.data.forEach(function (item) {
+                            console.log(item);
+                            item.dt = formatTime(item.dt);
+                        });
+                        console.log(res.data);
+                        // 告诉 模板引擎 我们将在模板内部使用这个函数
+                        
+                        var htmlStr = template('tmp', res);
+                        // console.log(htmlStr);
+                        $('#comment_list').html(htmlStr);
+                    }
+                });
+            }
+        });
+    </script>
+    </script>
 </body>
 
 </html>
